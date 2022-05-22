@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Course Project: Shiny Application and Reproducible Pitch</title>
+  <meta charset="utf-8">
+  <meta name="description" content="Course Project: Shiny Application and Reproducible Pitch">
+  <meta name="author" content="Narayana Vudumula">
+  <meta name="generator" content="slidify" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/default.css" media="all" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/phone.css" 
+    media="only screen and (max-device-width: 480px)" >
+  <link rel="stylesheet" href="libraries/frameworks/io2012/css/slidify.css" >
+  <link rel="stylesheet" href="libraries/highlighters/highlight.js/css/tomorrow.css" />
+  <base target="_blank"> <!-- This amazingness opens all links in a new tab. -->  <link rel=stylesheet href="./assets/css/ribbons.css"></link>
+
+  
+  <!-- Grab CDN jQuery, fall back to local if offline -->
+  <script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.7.min.js"></script>
+  <script>window.jQuery || document.write('<script src="libraries/widgets/quiz/js/jquery.js"><\/script>')</script> 
+  <script data-main="libraries/frameworks/io2012/js/slides" 
+    src="libraries/frameworks/io2012/js/require-1.0.8.min.js">
+  </script>
+  
+  
+
+</head>
+<body style="opacity: 0">
+  <slides class="layout-widescreen">
+    
+    <!-- LOGO SLIDE -->
+        <slide class="title-slide segue nobackground">
+  
+  <hgroup class="auto-fadein">
+    <h1>Course Project: Shiny Application and Reproducible Pitch</h1>
+    <h2>22 May 2022</h2>
+    <p>Narayana Vudumula<br/></p>
+  </hgroup>
+  
+  <article></article>  
+  
+</slide>
+    
+
+    <!-- SLIDES -->
+    <slide class="" id="slide-1" style="background:;">
+  
+  <hgroup>
+    <h2>About the Course Project</h2>
+  </hgroup>
+  
+  <article data-timings="">
+    <p>This is a deliverable for the course Developing Data Products as part of the Coursera Data Science Specialization.</p>
+
+<p>Instructions:</p>
+
+<ol>
+<li>Write a shiny application with associated supporting documentation. The documentation should be thought of as whatever a user will need to get started using your application.</li>
+<li>Deploy the application on Rstudio&#39;s shiny server</li>
+<li>Share the application link by pasting it into the provided text box</li>
+<li>Share your server.R and ui.R code on github</li>
+</ol>
+
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-2" style="background:;">
+  
+  <hgroup>
+    <h2>How to use the application</h2>
+  </hgroup>
+  
+  <article data-timings="">
+    <p>Using the data provided by Galton Families dataset, we fit a linear model to predict a child&#39;s height based on the gender and parent&#39;s average height.</p>
+
+<p>The application is running on (<a href="https://r2po.shinyapps.io/course_project_shiny_appreproducible_pitch/">https://r2po.shinyapps.io/course_project_shiny_appreproducible_pitch/</a>)</p>
+
+<p>ui.R, and Server.R Code in my github repository (<a href="https://github.com/nvudumula/Week-4-Developing-data-products">https://github.com/nvudumula/Week-4-Developing-data-products</a>)</p>
+
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-3" style="background:;">
+  
+  <hgroup>
+    <h2>Galton Families Dataset</h2>
+  </hgroup>
+  
+  <article data-timings="">
+    <p>The data used in the app comes from the GaltonFamilies dataset. </p>
+
+<pre><code class="r">library(HistData)
+data(GaltonFamilies)
+summary(GaltonFamilies)
+</code></pre>
+
+<pre><code>##      family        father         mother      midparentHeight
+##  185    : 15   Min.   :62.0   Min.   :58.00   Min.   :64.40  
+##  066    : 11   1st Qu.:68.0   1st Qu.:63.00   1st Qu.:68.14  
+##  120    : 11   Median :69.0   Median :64.00   Median :69.25  
+##  130    : 11   Mean   :69.2   Mean   :64.09   Mean   :69.21  
+##  166    : 11   3rd Qu.:71.0   3rd Qu.:65.88   3rd Qu.:70.14  
+##  097    : 10   Max.   :78.5   Max.   :70.50   Max.   :75.43  
+##  (Other):865                                                 
+##     children         childNum         gender     childHeight   
+##  Min.   : 1.000   Min.   : 1.000   female:453   Min.   :56.00  
+##  1st Qu.: 4.000   1st Qu.: 2.000   male  :481   1st Qu.:64.00  
+##  Median : 6.000   Median : 3.000                Median :66.50  
+##  Mean   : 6.171   Mean   : 3.586                Mean   :66.75  
+##  3rd Qu.: 8.000   3rd Qu.: 5.000                3rd Qu.:69.70  
+##  Max.   :15.000   Max.   :15.000                Max.   :79.00  
+## 
+</code></pre>
+
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-4" style="background:;">
+  
+  <hgroup>
+    <h2>Plot</h2>
+  </hgroup>
+  
+  <article data-timings="">
+    <p>In the scatterplot below are represented the data used for the prediction model</p>
+
+<pre><code class="r">library(HistData)
+data(GaltonFamilies)
+plot(jitter(GaltonFamilies$childHeight) ~ GaltonFamilies$midparentHeight,xlab=&quot;Average Height of the Parents (in inches)&quot;,ylab=&quot;Height of the Child (in inches)&quot;,main=&quot;Scatterplot of Galton Family Data&quot;,pch=19,frame.plot=FALSE,col=ifelse(GaltonFamilies$gender==&quot;female&quot;, &quot;pink&quot;, &quot;light blue&quot;))
+legend(65,80,pch=c(19,19),col=c(&quot;pink&quot;,&quot;light blue&quot;),c(&quot;female&quot;, &quot;male&quot;),bty=&quot;o&quot;,cex=.8)
+</code></pre>
+
+<p><img src="assets/fig/plot-1.png" alt="plot of chunk plot">
+widescreen: true</p>
+
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+<slide class="" id="slide-5" style="background:;">
+  
+  <hgroup>
+    <h2>Thank You!!</h2>
+  </hgroup>
+  
+  <article data-timings="">
+    
+  </article>
+  <!-- Presenter Notes -->
+  
+</slide>
+
+    <slide class="backdrop"></slide>
+  </slides>
+  <div class="pagination pagination-small" id='io2012-ptoc' style="display:none;">
+    <ul>
+      
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=1 title='About the Course Project'>
+         1
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=2 title='How to use the application'>
+         2
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=3 title='Galton Families Dataset'>
+         3
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=4 title='Plot'>
+         4
+      </a>
+    </li>
+    
+    <li>
+      <a href="#" target="_self" rel='tooltip' 
+        data-slide=5 title='Thank You!!'>
+         5
+      </a>
+    </li>
+    
+    </ul>
+  </div>  <!--[if IE]>
+    <script 
+      src="http://ajax.googleapis.com/ajax/libs/chrome-frame/1/CFInstall.min.js">  
+    </script>
+    <script>CFInstall.check({mode: 'overlay'});</script>
+  <![endif]-->
+</body>
+  <!-- Load Javascripts for Widgets -->
+  
+  <!-- LOAD HIGHLIGHTER JS FILES -->
+  <script src="libraries/highlighters/highlight.js/highlight.pack.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script>
+  <!-- DONE LOADING HIGHLIGHTER JS FILES -->
+   
+  </html>
